@@ -6,6 +6,8 @@ import Resources from "./components/Library/Resources";
 import Upload from "./components/Library/Upload";
 import Quizzes from "./components/Library/Quizzes";
 import Login from "./components/Login/Login";
+import SettingsPage from "./components/Settings";
+import RequestsPage from "./components/Request";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,8 +35,8 @@ function App() {
             <Route path="/teachers" element={<h1>Teachers</h1>} />
             <Route path="/schools" element={<h1>Schools</h1>} />
             <Route path="/reports" element={<h1>Reports</h1>} />
-            <Route path="/requests" element={<h1>Requests</h1>} />
-            <Route path="/settings" element={<h1>Settings</h1>} />
+            <Route path="/requests" element={<RequestsPage/>} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </div>
       </div>
