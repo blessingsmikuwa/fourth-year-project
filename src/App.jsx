@@ -8,6 +8,9 @@ import Quizzes from "./components/Library/Quizzes";
 import Login from "./components/Login/Login";
 import SettingsPage from "./components/Settings";
 import RequestsPage from "./components/Request";
+import Schools from "./components/User/Schools";
+import Students from "./components/User/Students";
+import Teachers from "./components/User/Schools";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,10 +34,9 @@ function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/quizzes" element={<Quizzes />} />
-            <Route path="/students" element={<h1>Students</h1>} />
-            <Route path="/teachers" element={<h1>Teachers</h1>} />
-            <Route path="/schools" element={<h1>Schools</h1>} />
-            <Route path="/reports" element={<h1>Reports</h1>} />
+            <Route path="/students" element={<Students/>} />
+            <Route path="/teachers" element={<Teachers/>} />
+            <Route path="/schools" element={ <Schools/>} />
             <Route path="/requests" element={<RequestsPage/>} />
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
