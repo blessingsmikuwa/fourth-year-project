@@ -1,6 +1,9 @@
  import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/sidebar";
 import Header from "./components/header";
+import Resources from "./components/Library/Resources";
+import Upload from "./components/Library/Upload";
+import Quizzes from "./components/Library/Quizzes";
 
 function App() {
   return (
@@ -20,9 +23,9 @@ function App() {
           <div className="p-6">
             <Routes>
               <Route path="/" element={<h1>Dashboard</h1>} />
-              <Route path="/resources" element={<h1>Resources</h1>} />
-              <Route path="/upload" element={<h1>Upload Materials</h1>} />
-              <Route path="/quizzes" element={<h1>Quizzes</h1>} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/upload" element={<Upload />} />
+              <Route path="/quizzes" element={<Quizzes />} />
               <Route path="/students" element={<h1>Students</h1>} />
               <Route path="/teachers" element={<h1>Teachers</h1>} />
               <Route path="/schools" element={<h1>Schools</h1>} />
