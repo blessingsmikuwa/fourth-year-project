@@ -21,17 +21,13 @@ const Quizzes = () => {
 
   const handleStatusChange = (id) => {
     setQuizzes(quizzes.map(q => 
-      q.id === id 
-        ? { ...q, status: q.status === 'Active' ? 'Inactive' : 'Active' }
-        : q
+      q.id === id ? { ...q, status: q.status === 'Active' ? 'Inactive' : 'Active' } : q
     ))
     alert('Quiz status updated!')
   }
 
   const handlePublish = (id) => {
-    setQuizzes(quizzes.map(q => 
-      q.id === id ? { ...q, status: 'Active' } : q
-    ))
+    setQuizzes(quizzes.map(q => q.id === id ? { ...q, status: 'Active' } : q))
     alert('Quiz published!')
   }
 
@@ -44,10 +40,10 @@ const Quizzes = () => {
 
   const getStatusClass = (status) => {
     switch(status) {
-      case 'Active': return 'tag-green'
-      case 'Inactive': return 'tag-orange'
-      case 'Draft': return 'tag-red'
-      default: return 'tag-gray'
+      case 'Active': return 'bg-[rgba(46,160,67,0.15)] text-[#2ea043]'
+      case 'Inactive': return 'bg-[rgba(240,136,62,0.15)] text-[#f0883e]'
+      case 'Draft': return 'bg-[rgba(218,54,51,0.15)] text-[#da3633]'
+      default: return 'bg-[rgba(139,148,158,0.15)] text-[#8b949e]'
     }
   }
 
@@ -55,27 +51,30 @@ const Quizzes = () => {
     <div>
       <div className="flex gap-2.5 mb-4 flex-wrap items-center">
         <input
-          className="filter-input flex-1 min-w-[180px]"
+          className="flex-1 min-w-[180px] bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-1.5 text-sm text-[#e6edf3] outline-none placeholder:text-[#6e7681]"
           placeholder="🔍 Search quizzes…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <select 
-          className="filter-select"
+          className="bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-1.5 text-sm text-[#e6edf3] outline-none cursor-pointer"
           value={subjectFilter}
           onChange={(e) => setSubjectFilter(e.target.value)}
         >
           {subjects.map(s => <option key={s}>{s}</option>)}
         </select>
-        <button className="btn-primary" onClick={() => alert('Quiz builder coming soon')}>
+        <button 
+          className="bg-[#2ea043] text-white px-3.5 py-1.5 rounded-lg text-sm font-medium hover:bg-[#3fb950] transition-all"
+          onClick={() => alert('Quiz builder coming soon')}
+        >
           + Create Quiz
         </button>
       </div>
 
-      <div className="card">
+      <div className="bg-[#161b22] border border-[#21262d] rounded-xl overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="text-[11px] font-semibold uppercase tracking-wider text-text3 border-b border-border">
+            <tr className="text-[11px] font-semibold uppercase tracking-wider text-[#6e7681] border-b border-[#21262d]">
               <th className="px-3 py-2 text-left">Quiz Title</th>
               <th className="px-3 py-2 text-left">Subject</th>
               <th className="px-3 py-2 text-left">Form</th>
@@ -87,20 +86,20 @@ const Quizzes = () => {
           </thead>
           <tbody>
             {filteredQuizzes.map((q) => (
-              <tr key={q.id} className="border-b border-border last:border-0 hover:bg-white/5">
-                <td className="px-3 py-2.5 text-sm">{q.title}</td>
-                <td className="px-3 py-2.5 text-sm">{q.subject}</td>
-                <td className="px-3 py-2.5 text-sm">{q.form}</td>
-                <td className="px-3 py-2.5 text-sm">{q.questions}</td>
-                <td className="px-3 py-2.5 text-sm font-mono">{q.attempts.toLocaleString()}</td>
+              <tr key={q.id} className="border-b border-[#21262d] last:border-0 hover:bg-white/5">
+                <td className="px-3 py-2.5 text-sm text-[#e6edf3]">{q.title}</td>
+                <td className="px-3 py-2.5 text-sm text-[#e6edf3]">{q.subject}</td>
+                <td className="px-3 py-2.5 text-sm text-[#e6edf3]">{q.form}</td>
+                <td className="px-3 py-2.5 text-sm text-[#e6edf3]">{q.questions}</td>
+                <td className="px-3 py-2.5 text-sm font-mono text-[#e6edf3]">{q.attempts.toLocaleString()}</td>
                 <td className="px-3 py-2.5 text-sm">
-                  <span className={`tag ${getStatusClass(q.status)}`}>{q.status}</span>
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${getStatusClass(q.status)}`}>{q.status}</span>
                 </td>
                 <td className="px-3 py-2.5 text-sm">
                   <div className="flex gap-1.5">
                     {q.status === 'Inactive' && (
                       <button 
-                        className="btn-ghost text-xs py-1 px-2.5"
+                        className="bg-[#1c2330] text-[#8b949e] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#6e7681] transition-all"
                         onClick={() => handleStatusChange(q.id)}
                       >
                         Activate
@@ -108,7 +107,7 @@ const Quizzes = () => {
                     )}
                     {q.status === 'Draft' && (
                       <button 
-                        className="btn-ghost text-xs py-1 px-2.5"
+                        className="bg-[#1c2330] text-[#8b949e] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#6e7681] transition-all"
                         onClick={() => handlePublish(q.id)}
                       >
                         Publish
@@ -116,14 +115,14 @@ const Quizzes = () => {
                     )}
                     {q.status === 'Active' && (
                       <button 
-                        className="btn-ghost text-xs py-1 px-2.5"
+                        className="bg-[#1c2330] text-[#8b949e] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#6e7681] transition-all"
                         onClick={() => handleStatusChange(q.id)}
                       >
                         Deactivate
                       </button>
                     )}
                     <button 
-                      className="btn-ghost text-xs py-1 px-2.5 border-accent4 text-accent4"
+                      className="bg-[#1c2330] text-[#da3633] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#da3633] transition-all"
                       onClick={() => handleDelete(q.id)}
                     >
                       Delete

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 const Resources = () => {
-  // All data lives here
   const [resources, setResources] = useState([
     { id: 1, title: 'MSCE Chemistry Past Paper 2023', subject: 'Chemistry', type: 'PDF', form: 'Form 4', downloads: 3214, status: 'Published' },
     { id: 2, title: 'English Grammar Guide', subject: 'English', type: 'PDF', form: 'Form 2', downloads: 2891, status: 'Published' },
@@ -11,14 +10,11 @@ const Resources = () => {
     { id: 6, title: 'History of Malawi – Chapter 1', subject: 'History', type: 'PDF', form: 'Form 2', downloads: 543, status: 'Published' },
   ])
 
-  // Filter states
   const [searchTerm, setSearchTerm] = useState('')
   const [subjectFilter, setSubjectFilter] = useState('All Subjects')
   const [typeFilter, setTypeFilter] = useState('All Types')
   const [formFilter, setFormFilter] = useState('All Forms')
   const [statusFilter, setStatusFilter] = useState('All Status')
-  
-  // Add form state (replaces modal)
   const [showAddForm, setShowAddForm] = useState(false)
   const [newResource, setNewResource] = useState({
     title: '',
@@ -28,13 +24,11 @@ const Resources = () => {
     status: 'Published'
   })
 
-  // Filter options
   const subjects = ['All Subjects', 'Mathematics', 'English', 'Biology', 'Chemistry', 'Physics', 'History', 'Geography']
   const types = ['All Types', 'PDF', 'DOC', 'Quiz']
   const forms = ['All Forms', 'Form 1', 'Form 2', 'Form 3', 'Form 4']
   const statuses = ['All Status', 'Published', 'Pending', 'Draft', 'Active']
 
-  // Filter function
   const filteredResources = resources.filter(r => {
     const matchesSearch = searchTerm === '' || 
       r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -46,19 +40,12 @@ const Resources = () => {
     return matchesSearch && matchesSubject && matchesType && matchesForm && matchesStatus
   })
 
-  // Handlers
   const handleAddResource = () => {
     if (!newResource.title) {
       alert('Please enter a title')
       return
     }
-    
-    const resource = {
-      ...newResource,
-      id: resources.length + 1,
-      downloads: 0
-    }
-    
+    const resource = { ...newResource, id: resources.length + 1, downloads: 0 }
     setResources([resource, ...resources])
     setShowAddForm(false)
     setNewResource({ title: '', subject: 'Mathematics', type: 'PDF', form: 'Form 1', status: 'Published' })
@@ -73,93 +60,88 @@ const Resources = () => {
   }
 
   const handleStatusChange = (id, newStatus) => {
-    setResources(resources.map(r => 
-      r.id === id ? { ...r, status: newStatus } : r
-    ))
+    setResources(resources.map(r => r.id === id ? { ...r, status: newStatus } : r))
     alert(`Resource ${newStatus === 'Published' ? 'published' : 'updated'}!`)
   }
 
-  // Style functions (same as before)
   const getTypeClass = (type) => {
     switch(type) {
-      case 'PDF': return 'tag-blue'
-      case 'DOC': return 'tag-green'
-      case 'Quiz': return 'tag-orange'
-      default: return 'tag-gray'
+      case 'PDF': return 'bg-[rgba(56,139,253,0.15)] text-[#388bfd]'
+      case 'DOC': return 'bg-[rgba(46,160,67,0.15)] text-[#2ea043]'
+      case 'Quiz': return 'bg-[rgba(240,136,62,0.15)] text-[#f0883e]'
+      default: return 'bg-[rgba(139,148,158,0.15)] text-[#8b949e]'
     }
   }
 
   const getStatusClass = (status) => {
     switch(status) {
-      case 'Published': return 'tag-green'
-      case 'Active': return 'tag-green'
-      case 'Pending': return 'tag-orange'
-      case 'Draft': return 'tag-red'
-      default: return 'tag-gray'
+      case 'Published': return 'bg-[rgba(46,160,67,0.15)] text-[#2ea043]'
+      case 'Active': return 'bg-[rgba(46,160,67,0.15)] text-[#2ea043]'
+      case 'Pending': return 'bg-[rgba(240,136,62,0.15)] text-[#f0883e]'
+      case 'Draft': return 'bg-[rgba(218,54,51,0.15)] text-[#da3633]'
+      default: return 'bg-[rgba(139,148,158,0.15)] text-[#8b949e]'
     }
   }
 
   return (
     <div>
-      {/* Filter Row - EXACT same look */}
+      {/* Filter Row */}
       <div className="flex gap-2.5 mb-4 flex-wrap items-center">
         <input
-          className="filter-input flex-1 min-w-[180px]"
+          className="flex-1 min-w-[180px] bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-1.5 text-sm text-[#e6edf3] outline-none placeholder:text-[#6e7681]"
           placeholder="🔍 Search resources by title, subject…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        
         <select 
-          className="filter-select"
+          className="bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-1.5 text-sm text-[#e6edf3] outline-none cursor-pointer"
           value={subjectFilter}
           onChange={(e) => setSubjectFilter(e.target.value)}
         >
           {subjects.map(s => <option key={s}>{s}</option>)}
         </select>
-        
         <select 
-          className="filter-select"
+          className="bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-1.5 text-sm text-[#e6edf3] outline-none cursor-pointer"
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
         >
           {types.map(t => <option key={t}>{t}</option>)}
         </select>
-        
         <select 
-          className="filter-select"
+          className="bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-1.5 text-sm text-[#e6edf3] outline-none cursor-pointer"
           value={formFilter}
           onChange={(e) => setFormFilter(e.target.value)}
         >
           {forms.map(f => <option key={f}>{f}</option>)}
         </select>
-        
         <select 
-          className="filter-select"
+          className="bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-1.5 text-sm text-[#e6edf3] outline-none cursor-pointer"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
           {statuses.map(s => <option key={s}>{s}</option>)}
         </select>
-        
-        <button className="btn-primary" onClick={() => setShowAddForm(true)}>
+        <button 
+          className="bg-[#2ea043] text-white px-3.5 py-1.5 rounded-lg text-sm font-medium hover:bg-[#3fb950] transition-all flex items-center gap-1.5"
+          onClick={() => setShowAddForm(true)}
+        >
           + Add Resource
         </button>
       </div>
 
-      {/* Add Form - Looks like a modal but it's inline (same styling) */}
+      {/* Add Form */}
       {showAddForm && (
-        <div className="mb-6 p-6 bg-surface border border-border rounded-xl">
-          <h3 className="text-sm font-semibold mb-4">Add New Resource</h3>
+        <div className="mb-6 p-6 bg-[#161b22] border border-[#21262d] rounded-xl">
+          <h3 className="text-sm font-semibold mb-4 text-[#e6edf3]">Add New Resource</h3>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <input
-              className="form-input"
+              className="w-full bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-2 text-sm text-[#e6edf3] outline-none focus:border-[#388bfd]"
               placeholder="Resource title"
               value={newResource.title}
               onChange={(e) => setNewResource({...newResource, title: e.target.value})}
             />
             <select 
-              className="form-select"
+              className="w-full bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-2 text-sm text-[#e6edf3] outline-none focus:border-[#388bfd]"
               value={newResource.subject}
               onChange={(e) => setNewResource({...newResource, subject: e.target.value})}
             >
@@ -172,7 +154,7 @@ const Resources = () => {
               <option>Geography</option>
             </select>
             <select 
-              className="form-select"
+              className="w-full bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-2 text-sm text-[#e6edf3] outline-none focus:border-[#388bfd]"
               value={newResource.type}
               onChange={(e) => setNewResource({...newResource, type: e.target.value})}
             >
@@ -181,7 +163,7 @@ const Resources = () => {
               <option>Quiz</option>
             </select>
             <select 
-              className="form-select"
+              className="w-full bg-[#1c2330] border border-[#21262d] rounded-lg px-3 py-2 text-sm text-[#e6edf3] outline-none focus:border-[#388bfd]"
               value={newResource.form}
               onChange={(e) => setNewResource({...newResource, form: e.target.value})}
             >
@@ -192,21 +174,27 @@ const Resources = () => {
             </select>
           </div>
           <div className="flex gap-2.5">
-            <button className="btn-primary" onClick={handleAddResource}>
+            <button 
+              className="bg-[#2ea043] text-white px-3.5 py-1.5 rounded-lg text-sm font-medium hover:bg-[#3fb950] transition-all"
+              onClick={handleAddResource}
+            >
               Save Resource
             </button>
-            <button className="btn-ghost" onClick={() => setShowAddForm(false)}>
+            <button 
+              className="bg-[#1c2330] text-[#8b949e] border border-[#21262d] px-3.5 py-1.5 rounded-lg text-sm font-medium hover:text-[#e6edf3] hover:border-[#6e7681] transition-all"
+              onClick={() => setShowAddForm(false)}
+            >
               Cancel
             </button>
           </div>
         </div>
       )}
 
-      {/* Resources Table - EXACT same look */}
-      <div className="card">
+      {/* Resources Table */}
+      <div className="bg-[#161b22] border border-[#21262d] rounded-xl overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="text-[11px] font-semibold uppercase tracking-wider text-text3 border-b border-border">
+            <tr className="text-[11px] font-semibold uppercase tracking-wider text-[#6e7681] border-b border-[#21262d]">
               <th className="px-3 py-2 text-left">Title</th>
               <th className="px-3 py-2 text-left">Subject</th>
               <th className="px-3 py-2 text-left">Type</th>
@@ -218,22 +206,22 @@ const Resources = () => {
           </thead>
           <tbody>
             {filteredResources.map((r) => (
-              <tr key={r.id} className="border-b border-border last:border-0 hover:bg-white/5">
-                <td className="px-3 py-2.5 text-sm">{r.title}</td>
-                <td className="px-3 py-2.5 text-sm">{r.subject}</td>
+              <tr key={r.id} className="border-b border-[#21262d] last:border-0 hover:bg-white/5">
+                <td className="px-3 py-2.5 text-sm text-[#e6edf3]">{r.title}</td>
+                <td className="px-3 py-2.5 text-sm text-[#e6edf3]">{r.subject}</td>
                 <td className="px-3 py-2.5 text-sm">
-                  <span className={`tag ${getTypeClass(r.type)}`}>{r.type}</span>
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${getTypeClass(r.type)}`}>{r.type}</span>
                 </td>
-                <td className="px-3 py-2.5 text-sm">{r.form}</td>
-                <td className="px-3 py-2.5 text-sm font-mono">{r.downloads.toLocaleString()}</td>
+                <td className="px-3 py-2.5 text-sm text-[#e6edf3]">{r.form}</td>
+                <td className="px-3 py-2.5 text-sm font-mono text-[#e6edf3]">{r.downloads.toLocaleString()}</td>
                 <td className="px-3 py-2.5 text-sm">
-                  <span className={`tag ${getStatusClass(r.status)}`}>{r.status}</span>
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${getStatusClass(r.status)}`}>{r.status}</span>
                 </td>
                 <td className="px-3 py-2.5 text-sm">
                   <div className="flex gap-1.5">
                     {r.status === 'Pending' && (
                       <button 
-                        className="btn-ghost text-xs py-1 px-2.5"
+                        className="bg-[#1c2330] text-[#8b949e] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#6e7681] transition-all"
                         onClick={() => handleStatusChange(r.id, 'Published')}
                       >
                         Approve
@@ -241,20 +229,20 @@ const Resources = () => {
                     )}
                     {r.status === 'Draft' && (
                       <button 
-                        className="btn-ghost text-xs py-1 px-2.5"
+                        className="bg-[#1c2330] text-[#8b949e] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#6e7681] transition-all"
                         onClick={() => handleStatusChange(r.id, 'Published')}
                       >
                         Publish
                       </button>
                     )}
                     <button 
-                      className="btn-ghost text-xs py-1 px-2.5"
+                      className="bg-[#1c2330] text-[#8b949e] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#6e7681] transition-all"
                       onClick={() => alert('Edit feature coming soon')}
                     >
                       Edit
                     </button>
                     <button 
-                      className="btn-ghost text-xs py-1 px-2.5 border-accent4 text-accent4"
+                      className="bg-[#1c2330] text-[#da3633] border border-[#21262d] text-xs py-1 px-2.5 rounded-lg hover:text-[#e6edf3] hover:border-[#da3633] transition-all"
                       onClick={() => handleDelete(r.id)}
                     >
                       Delete
@@ -266,12 +254,12 @@ const Resources = () => {
           </tbody>
         </table>
         
-        {/* Pagination - EXACT same look */}
+        {/* Pagination */}
         <div className="flex items-center gap-1.5 px-5 py-3 justify-end">
-          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-border bg-surface2 text-text2 hover:bg-accent hover:text-white hover:border-accent transition-all active">1</div>
-          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-border bg-surface2 text-text2 hover:bg-accent hover:text-white hover:border-accent transition-all">2</div>
-          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-border bg-surface2 text-text2 hover:bg-accent hover:text-white hover:border-accent transition-all">3</div>
-          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-border bg-surface2 text-text2 hover:bg-accent hover:text-white hover:border-accent transition-all">→</div>
+          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-[#21262d] bg-[#1c2330] text-[#8b949e] hover:bg-[#2ea043] hover:text-white hover:border-[#2ea043] transition-all">1</div>
+          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-[#21262d] bg-[#1c2330] text-[#8b949e] hover:bg-[#2ea043] hover:text-white hover:border-[#2ea043] transition-all">2</div>
+          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-[#21262d] bg-[#1c2330] text-[#8b949e] hover:bg-[#2ea043] hover:text-white hover:border-[#2ea043] transition-all">3</div>
+          <div className="w-8 h-8 rounded flex items-center justify-center cursor-pointer text-sm border border-[#21262d] bg-[#1c2330] text-[#8b949e] hover:bg-[#2ea043] hover:text-white hover:border-[#2ea043] transition-all">→</div>
         </div>
       </div>
     </div>
