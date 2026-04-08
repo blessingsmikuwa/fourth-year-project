@@ -1,7 +1,7 @@
 // DashboardOverview.jsx
 import React, { useState } from 'react';
 
-const DashboardOverview = () => {
+const DashboardOverview = ({ isDarkMode }) => {
   // ---------- Dummy Data for dashboard, it will be replaced with actual data from backend ----------
   const [stats] = useState([
     { label: 'Total Resources', value: '1,284', change: '+34', changeLabel: 'added this month', icon: '📚', color: 'green' },
@@ -85,6 +85,26 @@ const DashboardOverview = () => {
     },
   ]);
 
+  const theme = isDarkMode
+    ? {
+        root: 'text-gray-200 bg-gray-900',
+        card: 'bg-gray-800 border border-gray-700',
+        sectionBorder: 'border-gray-700',
+        mutedText: 'text-gray-400',
+        secondaryText: 'text-gray-300',
+        rowHover: 'hover:bg-gray-700/30',
+        toast: 'fixed bottom-4 right-4 z-50 bg-gray-800 border-l-4 border-green-500 rounded shadow-lg p-3 text-sm animate-fade-in-up',
+      }
+    : {
+        root: 'text-slate-900 bg-slate-100',
+        card: 'bg-white border border-slate-200',
+        sectionBorder: 'border-slate-200',
+        mutedText: 'text-slate-500',
+        secondaryText: 'text-slate-600',
+        rowHover: 'hover:bg-slate-100',
+        toast: 'fixed bottom-4 right-4 z-50 bg-white border-l-4 border-green-500 rounded shadow-lg p-3 text-sm animate-fade-in-up',
+      };
+
   // ---------- Toast State ----------
   const [toast, setToast] = useState({ message: '', visible: false });
 
@@ -131,10 +151,10 @@ const DashboardOverview = () => {
   };
 
   return (
-    <div className="p-6 text-gray-200 bg-gray-900 min-h-screen">
+    <div className={`p-6 min-h-screen ${theme.root}`}>
       {/* Toast Notification */}
       {toast.visible && (
-        <div className="fixed bottom-4 right-4 z-50 bg-gray-800 border-l-4 border-green-500 rounded shadow-lg p-3 text-sm animate-fade-in-up">
+        <div className={theme.toast}>
           {toast.message}
         </div>
       )}
@@ -142,14 +162,14 @@ const DashboardOverview = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {stats.map((stat, idx) => (
-          <div key={idx} className="bg-gray-800 border border-gray-700 rounded-lg p-4 relative overflow-hidden hover:border-gray-500 transition">
+          <div key={idx} className={`${theme.card} rounded-lg p-4 relative overflow-hidden transition`}>
             <div className={`absolute top-0 left-0 w-full h-1 ${stat.color === 'green' ? 'bg-green-500' : stat.color === 'blue' ? 'bg-blue-500' : stat.color === 'orange' ? 'bg-orange-500' : 'bg-red-500'}`} />
             <div className="absolute right-3 top-3 text-3xl opacity-20">{stat.icon}</div>
-            <div className="text-xs text-gray-400 uppercase tracking-wider">{stat.label}</div>
+            <div className={`text-xs ${theme.mutedText} uppercase tracking-wider`}>{stat.label}</div>
             <div className={`text-2xl font-mono font-semibold mt-1 ${stat.color === 'green' ? 'text-green-500' : stat.color === 'blue' ? 'text-blue-500' : stat.color === 'orange' ? 'text-orange-500' : 'text-red-500'}`}>
               {stat.value}
             </div>
-            <div className="text-xs text-gray-400 mt-1">
+            <div className={`text-xs ${theme.mutedText} mt-1`}>
               <span className="text-green-500">{stat.change}</span> {stat.changeLabel}
             </div>
           </div>
@@ -159,19 +179,18 @@ const DashboardOverview = () => {
       {/* Two-column layout: Chart & Right column */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Left: Downloads Chart */}
-        <div className="lg:col-span-2 bg-gray-800 border border-gray-700 rounded-lg">
-          <div className="flex justify-between items-center p-4 border-b border-gray-700">
+        <div className={`${theme.card} rounded-lg lg:col-span-2`}>
+          <div className={`flex justify-between items-center p-4 border-b ${theme.sectionBorder}`}>
             <h3 className="font-semibold">Resource Downloads by Subject</h3>
-             
           </div>
           <div className="p-4 space-y-3">
             {downloadsData.map((item, idx) => (
               <div key={idx} className="flex items-center gap-3">
-                <span className="w-20 text-sm text-gray-300">{item.subject}</span>
+                <span className={`w-20 text-sm ${theme.secondaryText}`}>{item.subject}</span>
                 <div className="flex-1 h-2 bg-gray-700 rounded overflow-hidden">
                   <div className={`h-full ${item.color} rounded`} style={{ width: `${item.percentage}%` }} />
                 </div>
-                <span className="font-mono text-xs text-gray-400 w-10 text-right">{item.downloads}</span>
+                <span className={`font-mono text-xs ${theme.mutedText} w-10 text-right`}>{item.downloads}</span>
               </div>
             ))}
           </div>
@@ -180,8 +199,8 @@ const DashboardOverview = () => {
         {/* Right column: Activity + Storage */}
         <div className="space-y-6">
           {/* Activity Feed */}
-          <div className="bg-gray-800 border border-gray-700 rounded-lg">
-            <div className="p-4 border-b border-gray-700">
+          <div className={`${theme.card} rounded-lg`}>
+            <div className={`p-4 border-b ${theme.sectionBorder}`}>
               <h3 className="font-semibold">Recent Activity</h3>
             </div>
             <div className="p-4 space-y-3">
@@ -198,13 +217,13 @@ const DashboardOverview = () => {
           </div>
 
           {/* Storage Usage */}
-          <div className="bg-gray-800 border border-gray-700 rounded-lg">
-            <div className="p-4 border-b border-gray-700">
+          <div className={`${theme.card} rounded-lg`}>
+            <div className={`p-4 border-b ${theme.sectionBorder}`}>
               <h3 className="font-semibold">Storage Usage</h3>
             </div>
             <div className="p-4">
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Used</span>
+                <span className={`${theme.mutedText}`}>Used</span>
                 <span className="font-mono">{storage.used} / {storage.total}</span>
               </div>
               <div className="h-2 bg-gray-700 rounded overflow-hidden">
@@ -213,7 +232,7 @@ const DashboardOverview = () => {
               <div className="mt-4 space-y-2">
                 {storage.breakdown.map((item, idx) => (
                   <div key={idx} className="flex justify-between text-sm">
-                    <span className="text-gray-400">{item.label}</span>
+                    <span className={`${theme.mutedText}`}>{item.label}</span>
                     <span className={`font-mono ${item.color}`}>{item.value}</span>
                   </div>
                 ))}
@@ -224,8 +243,8 @@ const DashboardOverview = () => {
       </div>
 
       {/* Recent Resources Table */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-x-auto">
-        <div className="flex justify-between items-center p-4 border-b border-gray-700">
+      <div className={`${theme.card} rounded-lg overflow-x-auto`}>
+        <div className={`flex justify-between items-center p-4 border-b ${theme.sectionBorder}`}>
           <h3 className="font-semibold">Recently Added Resources</h3>
           <button
             onClick={() => handleViewAll('Resources')}
@@ -235,7 +254,7 @@ const DashboardOverview = () => {
           </button>
         </div>
         <table className="w-full text-sm">
-          <thead className="text-xs text-gray-400 uppercase border-b border-gray-700">
+          <thead className={`text-xs ${theme.mutedText} uppercase border-b ${theme.sectionBorder}`}>
             <tr>
               <th className="text-left p-3">Title</th>
               <th className="text-left p-3">Subject</th>
@@ -249,7 +268,7 @@ const DashboardOverview = () => {
           </thead>
           <tbody>
             {recentResources.map((resource, idx) => (
-              <tr key={idx} className="border-b border-gray-700 hover:bg-gray-700/30">
+              <tr key={idx} className={`border-b ${theme.sectionBorder} ${theme.rowHover}`}>
                 <td className="p-3">{resource.title}</td>
                 <td className="p-3">{resource.subject}</td>
                 <td className="p-3">

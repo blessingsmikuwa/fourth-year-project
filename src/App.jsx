@@ -15,9 +15,14 @@ import DashboardOverview from "./components/dashboard";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
+  };
+
+  const handleToggleTheme = () => {
+    setIsDarkMode((prev) => !prev);
   };
 
   if (!isAuthenticated) {
@@ -25,13 +30,13 @@ function App() {
   }
   
   return (
-    <div className="flex bg-[#0d1117] text-[#e6edf3]">
-      <Sidebar />
+    <div className={`flex ${isDarkMode ? 'bg-[#0d1117] text-[#e6edf3]' : 'bg-slate-100 text-slate-900'}`}>
+      <Sidebar isDarkMode={isDarkMode} />
       <div className="flex-1 ml-[240px] flex flex-col min-h-screen">
-        <Header />
+        <Header isDarkMode={isDarkMode} onToggleTheme={handleToggleTheme} />
         <div className="p-6">
           <Routes>
-            <Route path="/" element={<DashboardOverview />} />
+            <Route path="/" element={<DashboardOverview isDarkMode={isDarkMode} />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/quizzes" element={<Quizzes />} />
