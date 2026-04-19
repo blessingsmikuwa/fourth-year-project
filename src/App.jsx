@@ -15,6 +15,7 @@ import DashboardOverview from "./components/dashboard";
 import { refreshAccessToken } from "./utils/AuthUtils";
 import AdminsPage from "./components/Admin/Admin";
 
+<<<<<<< HEAD
 // Decodes JWT and returns expiry timestamp in ms
 function getTokenExpiry(token) {
   try {
@@ -23,6 +24,45 @@ function getTokenExpiry(token) {
   } catch {
     return null
   }
+=======
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleToggleTheme = () => {
+    setIsDarkMode((prev) => !prev);
+  };
+
+  if (!isAuthenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
+  
+  return (
+    <div className={`flex ${isDarkMode ? 'bg-[#0d1117] text-[#e6edf3]' : 'bg-slate-100 text-slate-900'}`}>
+      <Sidebar isDarkMode={isDarkMode} />
+      <div className="flex-1 ml-[240px] flex flex-col min-h-screen">
+        <Header isDarkMode={isDarkMode} onToggleTheme={handleToggleTheme} />
+        <div className="p-6">
+          <Routes>
+            <Route path="/" element={<DashboardOverview isDarkMode={isDarkMode} />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/quizzes" element={<Quizzes />} />
+            <Route path="/students" element={<Students/>} />
+            <Route path="/teachers" element={<Teachers/>} />
+            <Route path="/schools" element={ <Schools/>} />
+            <Route path="/requests" element={<RequestsPage/>} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Routes>
+        </div>
+      </div>
+    </div>
+  );
+>>>>>>> 051d1e739beb516c1822988bad638845b494c2fb
 }
 
 // Protected route — redirects to login if no token

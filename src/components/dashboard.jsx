@@ -2,11 +2,22 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
 
+<<<<<<< HEAD
 // ─── colour helpers ────────────────────────────────────────────────────────────
 const SUBJECT_COLORS = [
   'bg-blue-500', 'bg-green-500', 'bg-orange-500',
   'bg-red-500',  'bg-purple-500','bg-cyan-500', 'bg-yellow-500',
 ];
+=======
+const DashboardOverview = ({ isDarkMode }) => {
+  // ---------- Dummy Data for dashboard, it will be replaced with actual data from backend ----------
+  const [stats] = useState([
+    { label: 'Total Resources', value: '1,284', change: '+34', changeLabel: 'added this month', icon: '📚', color: 'green' },
+    { label: 'Registered Students', value: '8,431', change: '+312', changeLabel: 'new this month', icon: '🎓', color: 'blue' },
+    { label: 'Active Teachers', value: '673', change: '+21', changeLabel: 'new this month', icon: '👩‍🏫', color: 'orange' },
+    { label: 'Schools Enrolled', value: '148', change: '+6', changeLabel: 'added this month', icon: '🏫', color: 'red' },
+  ]);
+>>>>>>> 051d1e739beb516c1822988bad638845b494c2fb
 
 const colorMap = {
   green:  { bar: 'bg-green-500',  text: 'text-green-500'  },
@@ -241,6 +252,30 @@ const DashboardOverview = () => {
   const [loadingStorage,   setLoadingStorage]   = useState(true);
   const [loadingDownloads, setLoadingDownloads] = useState(true);
 
+<<<<<<< HEAD
+=======
+  const theme = isDarkMode
+    ? {
+        root: 'text-gray-200 bg-gray-900',
+        card: 'bg-gray-800 border border-gray-700',
+        sectionBorder: 'border-gray-700',
+        mutedText: 'text-gray-400',
+        secondaryText: 'text-gray-300',
+        rowHover: 'hover:bg-gray-700/30',
+        toast: 'fixed bottom-4 right-4 z-50 bg-gray-800 border-l-4 border-green-500 rounded shadow-lg p-3 text-sm animate-fade-in-up',
+      }
+    : {
+        root: 'text-slate-900 bg-slate-100',
+        card: 'bg-white border border-slate-200',
+        sectionBorder: 'border-slate-200',
+        mutedText: 'text-slate-500',
+        secondaryText: 'text-slate-600',
+        rowHover: 'hover:bg-slate-100',
+        toast: 'fixed bottom-4 right-4 z-50 bg-white border-l-4 border-green-500 rounded shadow-lg p-3 text-sm animate-fade-in-up',
+      };
+
+  // ---------- Toast State ----------
+>>>>>>> 051d1e739beb516c1822988bad638845b494c2fb
   const [toast, setToast] = useState({ message: '', visible: false });
 
   // ── toast helper ───────────────────────────────────────────────────────────
@@ -355,17 +390,23 @@ const DashboardOverview = () => {
 
   // ── render ─────────────────────────────────────────────────────────────────
   return (
+<<<<<<< HEAD
     <div className="p-6 text-gray-200 bg-gray-900 min-h-screen">
 
       {/* Toast */}
+=======
+    <div className={`p-6 min-h-screen ${theme.root}`}>
+      {/* Toast Notification */}
+>>>>>>> 051d1e739beb516c1822988bad638845b494c2fb
       {toast.visible && (
-        <div className="fixed bottom-4 right-4 z-50 bg-gray-800 border-l-4 border-green-500 rounded shadow-lg p-3 text-sm animate-fade-in-up">
+        <div className={theme.toast}>
           {toast.message}
         </div>
       )}
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<<<<<<< HEAD
         {statCards.map((stat, idx) => (
           <div key={idx} className="bg-gray-800 border border-gray-700 rounded-lg p-4 relative overflow-hidden hover:border-gray-500 transition">
             <div className={`absolute top-0 left-0 w-full h-1 ${colorMap[stat.color].bar}`} />
@@ -375,12 +416,26 @@ const DashboardOverview = () => {
               {stat.value}
             </div>
             <div className="text-xs text-gray-500 mt-1">Live from database</div>
+=======
+        {stats.map((stat, idx) => (
+          <div key={idx} className={`${theme.card} rounded-lg p-4 relative overflow-hidden transition`}>
+            <div className={`absolute top-0 left-0 w-full h-1 ${stat.color === 'green' ? 'bg-green-500' : stat.color === 'blue' ? 'bg-blue-500' : stat.color === 'orange' ? 'bg-orange-500' : 'bg-red-500'}`} />
+            <div className="absolute right-3 top-3 text-3xl opacity-20">{stat.icon}</div>
+            <div className={`text-xs ${theme.mutedText} uppercase tracking-wider`}>{stat.label}</div>
+            <div className={`text-2xl font-mono font-semibold mt-1 ${stat.color === 'green' ? 'text-green-500' : stat.color === 'blue' ? 'text-blue-500' : stat.color === 'orange' ? 'text-orange-500' : 'text-red-500'}`}>
+              {stat.value}
+            </div>
+            <div className={`text-xs ${theme.mutedText} mt-1`}>
+              <span className="text-green-500">{stat.change}</span> {stat.changeLabel}
+            </div>
+>>>>>>> 051d1e739beb516c1822988bad638845b494c2fb
           </div>
         ))}
       </div>
 
       {/* Two-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+<<<<<<< HEAD
 
         {/* Downloads by Subject — dynamic */}
         <div className="lg:col-span-2 bg-gray-800 border border-gray-700 rounded-lg">
@@ -398,6 +453,64 @@ const DashboardOverview = () => {
                     <div className="w-20 h-3 bg-gray-700 rounded" />
                     <div className="flex-1 h-2 bg-gray-700 rounded" />
                     <div className="w-10 h-3 bg-gray-700 rounded" />
+=======
+        {/* Left: Downloads Chart */}
+        <div className={`${theme.card} rounded-lg lg:col-span-2`}>
+          <div className={`flex justify-between items-center p-4 border-b ${theme.sectionBorder}`}>
+            <h3 className="font-semibold">Resource Downloads by Subject</h3>
+          </div>
+          <div className="p-4 space-y-3">
+            {downloadsData.map((item, idx) => (
+              <div key={idx} className="flex items-center gap-3">
+                <span className={`w-20 text-sm ${theme.secondaryText}`}>{item.subject}</span>
+                <div className="flex-1 h-2 bg-gray-700 rounded overflow-hidden">
+                  <div className={`h-full ${item.color} rounded`} style={{ width: `${item.percentage}%` }} />
+                </div>
+                <span className={`font-mono text-xs ${theme.mutedText} w-10 text-right`}>{item.downloads}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right column: Activity + Storage */}
+        <div className="space-y-6">
+          {/* Activity Feed */}
+          <div className={`${theme.card} rounded-lg`}>
+            <div className={`p-4 border-b ${theme.sectionBorder}`}>
+              <h3 className="font-semibold">Recent Activity</h3>
+            </div>
+            <div className="p-4 space-y-3">
+              {activities.map((act, idx) => (
+                <div key={idx} className="flex gap-3">
+                  <div className={`w-2 h-2 mt-1 rounded-full ${act.dotColor} flex-shrink-0`} />
+                  <div>
+                    <div className="text-sm" dangerouslySetInnerHTML={{ __html: act.text }} />
+                    <div className="text-xs text-gray-500 font-mono mt-1">{act.time}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Storage Usage */}
+          <div className={`${theme.card} rounded-lg`}>
+            <div className={`p-4 border-b ${theme.sectionBorder}`}>
+              <h3 className="font-semibold">Storage Usage</h3>
+            </div>
+            <div className="p-4">
+              <div className="flex justify-between text-sm mb-1">
+                <span className={`${theme.mutedText}`}>Used</span>
+                <span className="font-mono">{storage.used} / {storage.total}</span>
+              </div>
+              <div className="h-2 bg-gray-700 rounded overflow-hidden">
+                <div className="h-full bg-orange-500 rounded" style={{ width: `${storage.percentage}%` }} />
+              </div>
+              <div className="mt-4 space-y-2">
+                {storage.breakdown.map((item, idx) => (
+                  <div key={idx} className="flex justify-between text-sm">
+                    <span className={`${theme.mutedText}`}>{item.label}</span>
+                    <span className={`font-mono ${item.color}`}>{item.value}</span>
+>>>>>>> 051d1e739beb516c1822988bad638845b494c2fb
                   </div>
                 ))}
               </div>
@@ -526,13 +639,14 @@ const DashboardOverview = () => {
       </div>
 
       {/* Recent Resources Table */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-x-auto">
-        <div className="flex justify-between items-center p-4 border-b border-gray-700">
+      <div className={`${theme.card} rounded-lg overflow-x-auto`}>
+        <div className={`flex justify-between items-center p-4 border-b ${theme.sectionBorder}`}>
           <h3 className="font-semibold">Recently Added Resources</h3>
           <button onClick={() => navigate('/resources')} className="text-xs text-blue-400 hover:underline">
             View All →
           </button>
         </div>
+<<<<<<< HEAD
 
         {loadingResources ? (
           <div className="p-6 text-center text-sm text-gray-500">Loading resources...</div>
@@ -559,6 +673,37 @@ const DashboardOverview = () => {
                   <td className="p-3 text-gray-400">{formatDate(r.createdAt)}</td>
                   <td className="p-3"><StatusTag status={r.status} /></td>
                   <td className="p-3">
+=======
+        <table className="w-full text-sm">
+          <thead className={`text-xs ${theme.mutedText} uppercase border-b ${theme.sectionBorder}`}>
+            <tr>
+              <th className="text-left p-3">Title</th>
+              <th className="text-left p-3">Subject</th>
+              <th className="text-left p-3">Type</th>
+              <th className="text-left p-3">Form</th>
+              <th className="text-left p-3">Uploaded By</th>
+              <th className="text-left p-3">Date</th>
+              <th className="text-left p-3">Status</th>
+              <th className="text-left p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recentResources.map((resource, idx) => (
+              <tr key={idx} className={`border-b ${theme.sectionBorder} ${theme.rowHover}`}>
+                <td className="p-3">{resource.title}</td>
+                <td className="p-3">{resource.subject}</td>
+                <td className="p-3">
+                  <TypeTag type={resource.type} color={resource.typeColor} />
+                </td>
+                <td className="p-3">{resource.form}</td>
+                <td className="p-3">{resource.uploadedBy}</td>
+                <td className="p-3">{resource.date}</td>
+                <td className="p-3">
+                  <StatusTag status={resource.status} color={resource.statusColor} />
+                </td>
+                <td className="p-3">
+                  {resource.status === 'Pending' ? (
+>>>>>>> 051d1e739beb516c1822988bad638845b494c2fb
                     <button
                       onClick={() => showToast(`✏️ Editing "${r.title}"`)}
                       className="px-2 py-1 text-xs bg-gray-700 border border-gray-600 rounded hover:bg-gray-600 text-gray-200"
