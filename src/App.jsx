@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Sidebar from "./components/sidebar";
+import Sidebar from "./components/Sidebar";
 import Header from "./components/header";
 import Resources from "./components/Library/Resources";
 import Upload from "./components/Library/Upload";
